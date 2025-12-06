@@ -1,26 +1,256 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
+
+  /* Custom gold colors */
+  --color-gold-50: #FDF9E7;
+  --color-gold-100: #F9F0C8;
+  --color-gold-200: #F3E090;
+  --color-gold-300: #E9C95A;
+  --color-gold-400: #D4A84B;
+  --color-gold-500: #C9A035;
+  --color-gold-600: #B8860B;
+  --color-gold-700: #9A7209;
+  --color-gold-800: #7D5C07;
+  --color-gold-900: #604705;
+
+  /* Cream/Ivory colors */
+  --color-cream-50: #FFFEF7;
+  --color-cream-100: #FEFCF0;
+  --color-cream-200: #FDF8E1;
+  --color-cream-300: #FAF3D0;
+  --color-cream-400: #F5EBB8;
+  --color-cream-500: #EFE2A0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Light Mode (default) - Cream/Ivory with Gold accents */
+:root {
+  --background: #FFFEF7;
+  --background-secondary: #FEFCF0;
+  --foreground: #1A1A1A;
+  --foreground-muted: #4A4A4A;
+  --primary: #B8860B;
+  --primary-hover: #D4A84B;
+  --primary-light: #C9A035;
+  --accent: #1A1A1A;
+  --card-bg: rgba(255, 254, 247, 0.9);
+  --card-border: rgba(184, 134, 11, 0.2);
+  --gold-gradient: linear-gradient(135deg, #D4A84B 0%, #B8860B 50%, #9A7209 100%);
+  --gold-text: #B8860B;
+  --gold-shimmer: linear-gradient(90deg, #B8860B 0%, #D4A84B 50%, #B8860B 100%);
+}
+
+/* Dark Mode - Deep Black with Metallic Gold */
+.dark {
+  --background: #0A0A0A;
+  --background-secondary: #121212;
+  --foreground: #FAFAFA;
+  --foreground-muted: #A0A0A0;
+  --primary: #D4A84B;
+  --primary-hover: #E9C95A;
+  --primary-light: #C9A035;
+  --accent: #FAFAFA;
+  --card-bg: rgba(18, 18, 18, 0.95);
+  --card-border: rgba(212, 168, 75, 0.3);
+  --gold-gradient: linear-gradient(135deg, #E9C95A 0%, #D4A84B 50%, #B8860B 100%);
+  --gold-text: #D4A84B;
+  --gold-shimmer: linear-gradient(90deg, #D4A84B 0%, #E9C95A 50%, #D4A84B 100%);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar with gold accent */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-gradient);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area padding for mobile notches */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Pulse animation for WhatsApp FAB */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite;
+}
+
+/* Gold glow effect for CTA button */
+.glow-effect {
+  box-shadow: 0 0 30px rgba(212, 168, 75, 0.4), 0 0 60px rgba(184, 134, 11, 0.2);
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 40px rgba(212, 168, 75, 0.6), 0 0 80px rgba(184, 134, 11, 0.3);
+}
+
+/* Gold text gradient */
+.text-gold-gradient {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Shimmer animation for gold elements */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.gold-shimmer {
+  background: var(--gold-shimmer);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Glass morphism utility - luxury version */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+}
+
+/* Luxury card style */
+.luxury-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.luxury-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 30px rgba(184, 134, 11, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Gold border accent */
+.gold-border {
+  border: 1px solid var(--primary);
+}
+
+.gold-border-gradient {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+              var(--gold-gradient) border-box;
+}
+
+/* Button styles */
+.btn-gold {
+  background: var(--gold-gradient);
+  color: #1A1A1A;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-gold:hover {
+  background: var(--primary);
+  color: #1A1A1A;
+}
+
+/* Section divider with gold accent */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+/* Luxury input styles */
+.luxury-input {
+  background: var(--background-secondary);
+  border: 1px solid var(--card-border);
+  color: var(--foreground);
+  transition: all 0.3s ease;
+}
+
+.luxury-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+.luxury-input::placeholder {
+  color: var(--foreground-muted);
 }
