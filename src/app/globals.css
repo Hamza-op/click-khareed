@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-serif: var(--font-playfair);
-  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-lato);
 
   /* Custom gold colors */
   --color-gold-50: #FDF9E7;
@@ -64,11 +64,36 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+/* Mobile-first touch-friendly sizing */
+@media (max-width: 768px) {
+  /* Ensure minimum touch target size */
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+
+  /* Reduce animations on mobile for performance */
+  .luxury-card:hover {
+    transform: none;
+  }
+
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    .luxury-card:hover {
+      border-color: var(--card-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
 }
 
 /* Custom scrollbar with gold accent */

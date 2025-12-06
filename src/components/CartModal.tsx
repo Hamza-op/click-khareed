@@ -68,12 +68,13 @@ export function CartModal() {
                       className="flex gap-4 p-3 rounded-xl luxury-card"
                     >
                       <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image src={item.image} alt={item.name} fill className="object-cover" />
+                        <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium truncate">{item.name}</h3>
                         <p className="text-sm" style={{ color: 'var(--foreground-muted)' }}>{item.category}</p>
-                        <p className="font-semibold mt-1" style={{ color: 'var(--primary)' }}>{formatPrice(item.price)}</p>
+                        <p className="text-xs mt-1" style={{ color: 'var(--foreground-muted)' }}>{formatPrice(item.price)} × {item.quantity}</p>
+                        <p className="font-semibold" style={{ color: 'var(--primary)' }}>{formatPrice(item.price * item.quantity)}</p>
                       </div>
                       <div className="flex flex-col items-end justify-between">
                         <button onClick={() => removeFromCart(item.id)} className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded">
@@ -102,8 +103,16 @@ export function CartModal() {
                   <span style={{ color: 'var(--foreground-muted)' }}>Subtotal</span>
                   <span className="text-xl font-bold" style={{ color: 'var(--primary)' }}>{formatPrice(getCartTotal())}</span>
                 </div>
-                <button className="w-full py-3 rounded-xl font-semibold btn-gold glow-effect mb-2">
-                  Proceed to Checkout
+                <button
+                  onClick={() => {
+                    const itemsList = items.map(item => `• ${item.name} (x${item.quantity}) - ${formatPrice(item.price * item.quantity)}`).join('\n');
+                    const message = `Hi! I would like to order the following items:\n\n${itemsList}\n\n*Total: ${formatPrice(getCartTotal())}*\n\nPlease confirm availability and payment details.`;
+                    const whatsappUrl = `https://wa.me/923129653920?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                  }}
+                  className="w-full py-3 rounded-xl font-semibold btn-gold glow-effect mb-2"
+                >
+                  Order via WhatsApp
                 </button>
                 <button onClick={clearCart} className="w-full py-2 text-sm" style={{ color: 'var(--foreground-muted)' }}>
                   Clear Cart
